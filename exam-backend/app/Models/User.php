@@ -8,10 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use \DateTimeInterface;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject; 
+use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes, HasRoles;
 
     public $table = 'users';
 
@@ -42,7 +44,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
@@ -57,13 +58,73 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+ 
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function getIsAdminAttribute()
+    {
+        return $this->roles()->whereIn('id', [1])->exists();
+    }
+
+     public function getIsUserAttribute()
+    {
+        return $this->roles()->whereIn('id', [2])->exists();
     }
 
     public function exam_forms()
     {
         return $this->hasMany(ExamForm::class);
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_user');
+    }
+
+    public function hasRole($role): bool
+    {
+        if (is_string($role)) {
+            return $this->roles->contains('slug', $role);
+        }
+        return $this->roles->contains($role);
+    }
+
+    public function hasPermission($permission): bool
+    {
+        foreach ($this->roles as $role) {
+            if ($role->permissions->contains('slug', $permission)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function givePermissionTo($permissionSlug)
+    {
+        // Helper if needed
+    }
+
 }

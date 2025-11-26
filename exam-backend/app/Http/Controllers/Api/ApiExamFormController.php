@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\ExamFormRepositoryInterface;
+use App\Http\Controllers\API\BaseController as BaseController;
 
-class ApiExamFormController extends Controller
+class ApiExamFormController extends BaseController
 {
     protected $forms;
 

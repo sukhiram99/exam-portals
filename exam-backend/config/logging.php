@@ -127,6 +127,13 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        'exam_portals' => [
+        'driver' => 'daily',
+        'path' => storage_path('logs/exam_portals/exam_portals.log'),
+        'level' => 'info',
+        'days' => 15,
+        ],
+
     ],
 
 ];

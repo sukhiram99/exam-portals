@@ -177,3 +177,5 @@ Admin panel
 Notification system
 
 Enhanced validation
+
+## 1 Add the role permissin packages : composer require spatie/laravel-permission

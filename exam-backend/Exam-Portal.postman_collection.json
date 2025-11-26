@@ -1,0 +1,370 @@
+{
+	"info": {
+		"_postman_id": "5396a6b8-6509-4098-b708-0abd6b2c4a43",
+		"name": "Exam-Portal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34594245",
+		"_collection_link": "https://web.postman.co/workspace/My-Workspace~6607b3d8-0b5a-4523-87b7-408ca5022827/collection/34594245-5396a6b8-6509-4098-b708-0abd6b2c4a43?action=share&source=collection_link&creator=34594245"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Registration",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Sukhiram",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "bonusahu1999@gmail.com",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "9340769116",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Sukhiram@1234",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "c_password",
+									"value": "Sukhiram@1234",
+									"description": "required",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "bonusahu1999@gmail.com",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Sukhiram@1234",
+									"description": "required",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get-Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{base_url}}/user/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh-Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{base_url}}/user/refresh",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{base_url}}/user/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Exam-Form",
+			"item": [
+				{
+					"name": "Submit-Exam-Form",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "full_name",
+									"value": "Sukhiram Sahu",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "bonusahu1999@gmail.com",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "course",
+									"value": "btech",
+									"description": "btech,bsc // required",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/user/exam-form-submit",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"exam-form-submit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Exam-Payments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "form_id",
+									"value": "1",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "amount",
+									"value": "5",
+									"description": "btech,bsc // required",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/user/exam-payment/create-order",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"exam-payment",
+								"create-order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify-Payments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "form_id",
+									"value": "2",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "razorpay_payment_id",
+									"value": "bonusahu1999@gmail.com",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "razorpay_order_id",
+									"value": "order_RkT9XerW1FyN3Z",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "razorpay_signature",
+									"value": "exam_form_2",
+									"type": "text"
+								},
+								{
+									"key": "amount",
+									"value": "500",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/user/exam-payment/verify",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"exam-payment",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

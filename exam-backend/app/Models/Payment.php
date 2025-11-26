@@ -17,7 +17,10 @@ class Payment extends Model
         'payment_gateway',
         'transaction_id',
         'amount',
-        'status'
+        'status',
+        'razorpay_order_id',
+        'razorpay_signature',
+        'pdf_path',
     ];
 
     protected $dates = [

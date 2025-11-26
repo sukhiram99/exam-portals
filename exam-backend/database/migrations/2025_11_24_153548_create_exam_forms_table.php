@@ -9,20 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+
+    // database/migrations/xxxx_xx_xx_create_exam_forms_table.php
+    public function up()
     {
         Schema::create('exam_forms', function (Blueprint $table) {
             $table->id();
-            $table->foreign('user_id')
-              ->references('id')->on('users')
-              ->onDelete('cascade')
-              ->onUpdate('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('full_name');
             $table->string('email');
             $table->string('course');
             $table->boolean('is_paid')->default(false);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

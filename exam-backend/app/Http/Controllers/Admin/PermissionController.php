@@ -17,7 +17,7 @@ class PermissionController extends Controller
     {
         abort_if(!auth()->user()->hasPermission('view-permissions'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $permissions = Permission::paginate(15);
+        $permissions = Permission::paginate(10);
         return view('admin.permissions.index', compact('permissions'));
     }
 

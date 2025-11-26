@@ -3,8 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Repositories\Interfaces\ExamFormRepositoryInterface;
-use App\Repositories\Eloquent\ExamFormRepository;
 use App\Models\Permission;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +15,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(ExamFormRepositoryInterface::class,ExamFormRepository::class);
         // $this->app->bind(PaymentRepositoryInterface::class, PaymentRepository::class );
 
     }

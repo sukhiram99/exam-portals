@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Web\WebExamFormController;
+use App\Http\Controllers\Admin\ExamFormController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -27,11 +27,6 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function() {
 
-    Route::get('/forms', [WebExamFormController::class, 'index']);
-    Route::get('/forms/create', [WebExamFormController::class, 'create']);
-    Route::post('/forms/store', [WebExamFormController::class, 'store']);
-
-
    Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
      
         Route::get('dashboard', function () {
@@ -41,8 +36,17 @@ Route::middleware('auth')->group(function() {
         Route::resource('roles', RoleController::class);
         Route::resource('users', UserController::class);
         Route::resource('permissions',PermissionController::class); // ← Add this line
-        // Route::get('users/{user}/roles', [UserRoleController::class, 'edit'])->name('users.roles.edit');
-        // Route::put('users/{user}/roles', [UserRoleController::class, 'update'])->name('users.roles.update');
+
+         Route::get('exam/forms', [ExamFormController::class, 'index'])->name('exam.forms');
+        Route::get('exam/create', [ExamFormController::class, 'create'])->name('exam.create');
+        Route::post('exam/store', [ExamFormController::class, 'store'])->name('exam.store');
+        Route::get('exam/{id}/pay', [ExamFormController::class, 'pay'])->name('exam.pay');
+        // API Routes for Razorpay
+        Route::post('api/create-order', [ExamFormController::class, 'createOrder']);
+        Route::post('api/verify-payment', [ExamFormController::class, 'verifyPayment']);
+
+        Route::get('receipt/{payment}', [ExamFormController::class, 'receipt'])->name('receipt.show');
+        Route::get('receipt/download/{payment}', [ExamFormController::class, 'downloadReceipt'])->name('receipt.download');
     });
 
 });

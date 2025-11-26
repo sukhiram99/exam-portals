@@ -93,18 +93,7 @@ Edit migrations and run:
 
 php artisan migrate
 
-## 🧩 6. Install Repository Pattern Package
-
-To follow clean architecture:
-
-composer require jason-guru/laravel-make-repository --dev
-
-Generate repository files:
-
-php artisan make:repository ExamForm
-php artisan make:repository Payment
-
-## 🧰 7. Install Laravel API Scaffold (Optional)
+## 🧰 6. Install Laravel API Scaffold (Optional)
 
 php artisan install:api
 
@@ -116,7 +105,7 @@ Token middleware
 
 API route structure
 
-## 📦 8. Project Architecture
+## 📦 7. Project Architecture
 
 app/
 ├── Models/
@@ -135,22 +124,51 @@ routes/
 
 ## 🌐 9. Web Routes (Example)
 
-Route::middleware('auth')->group(function() {
-Route::get('/forms', [WebExamFormController::class, 'index']);
-Route::get('/forms/create', [WebExamFormController::class, 'create']);
-Route::post('/forms/store', [WebExamFormController::class, 'store']);
+oute::middleware('auth')->group(function() {
+
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+
+        Route::get('dashboard', function () {
+            return view('dashboard');
+        })->name('dashboard');
+
+        Route::resource('roles', RoleController::class);
+        Route::resource('users', UserController::class);
+        Route::resource('permissions',PermissionController::class); // ← Add this line
+
+         Route::get('exam/forms', [ExamFormController::class, 'index'])->name('exam.forms');
+        Route::get('exam/create', [ExamFormController::class, 'create'])->name('exam.create');
+        Route::post('exam/store', [ExamFormController::class, 'store'])->name('exam.store');
+        Route::get('exam/{id}/pay', [ExamFormController::class, 'pay'])->name('exam.pay');
+        // API Routes for Razorpay
+        Route::post('api/create-order', [ExamFormController::class, 'createOrder']);
+        Route::post('api/verify-payment', [ExamFormController::class, 'verifyPayment']);
+
+        Route::get('receipt/{payment}', [ExamFormController::class, 'receipt'])->name('receipt.show');
+        Route::get('receipt/download/{payment}', [ExamFormController::class, 'downloadReceipt'])->name('receipt.download');
+    });
+
 });
 
 ## 📱 10. API Routes (Example)
 
-Route::middleware('auth:api')->group(function () {
+Route::group(['middleware' => 'auth:api','prefix' => 'user'], function ($router) {
 
-    Route::get('/forms', [ApiExamFormController::class, 'index']);
-    Route::post('/forms', [ApiExamFormController::class, 'store']);
-    Route::get('/forms/{id}', [ApiExamFormController::class, 'show']);
-    Route::put('/forms/{id}', [ApiExamFormController::class, 'update']);
-    Route::delete('/forms/{id}', [ApiExamFormController::class, 'destroy']);
+    Route::post('exam-form-submit', [ExamApiController::class, 'submitForm']);
+    Route::post('exam-payment/create-order', [ExamApiController::class, 'createRazorpayOrder']);
+    Route::post('exam-payment/verify', [ExamApiController::class, 'verifyPayment']);
 
+});
+
+Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
+Route::post('register', [AuthApiController::class, 'register']);
+Route::post('login', [AuthApiController::class, 'login']);
+});
+
+Route::group(['middleware' => 'auth:api','prefix' => 'user'], function ($router) {
+Route::post('logout', [AuthApiController::class, 'logout']);
+Route::post('refresh', [AuthApiController::class, 'refresh']);
+Route::post('profile', [AuthApiController::class, 'profile']);
 });
 
 ## 🧪 11. Testing
@@ -177,5 +195,3 @@ Admin panel
 Notification system
 
 Enhanced validation
-
-## 1 Add the role permissin packages : composer require spatie/laravel-permission

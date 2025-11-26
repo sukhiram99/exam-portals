@@ -31,6 +31,12 @@
                             <i class="bi bi-people-fill"></i> Manage Users
                         </a>
                     @endif
+                    {{-- @if (auth()->user()->hasPermission('view-users')) --}}
+                    <a href="{{ route('admin.exam.forms') }}"
+                        class="nav-link text-white {{ request()->is('admin/exam/forms') ? 'bg-danger rounded' : '' }} mb-2">
+                        <i class="bi bi-people-fill"></i> Exam Form
+                    </a>
+                    {{-- @endif --}}
                 @endif
 
                 @if (auth()->user()->is_admin)
